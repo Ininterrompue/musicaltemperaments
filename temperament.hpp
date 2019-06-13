@@ -40,6 +40,7 @@ public:
     void pitchclass_array();
 
     void equal();
+    void pythagorean();
     void meantone6();
     void kirnberger3();
 
