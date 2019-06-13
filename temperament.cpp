@@ -77,6 +77,13 @@ void Temperament::pythagorean() {
     }
 }
 
+void Temperament::meantone4() {
+    for (int i = 0; i < ntones_ - 1; i++) {
+        temperedfractions_.push_back(1.0/4.0);
+        temperedcommas_.push_back(C.syntonic_comma_);
+    }
+}
+
 void Temperament::meantone6() {
     for (int i = 0; i < ntones_ - 1; i++) {
         temperedfractions_.push_back(1.0/6.0);

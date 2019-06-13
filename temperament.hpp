@@ -41,6 +41,7 @@ public:
 
     void equal();
     void pythagorean();
+    void meantone4();
     void meantone6();
     void kirnberger3();
 
