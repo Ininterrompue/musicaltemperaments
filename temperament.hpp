@@ -12,8 +12,6 @@ public:
     Constants(double pythagorean_comma = 1.0136432647705078125, 
               double syntonic_comma    = 1.0125, 
               double schisma           = 1.001129150390625);
-
-    double convert_to_cents(double ratio);
 };
 
 class Temperament {
@@ -43,17 +41,25 @@ public:
     int get_ntones() const;
     string get_starting_note() const;
     int get_octave() const;
+    void display_universal_info() const;
+    double convert_to_cents(double ratio);
     void pitchclass_array();
 
+    // Regular (meantone)
     void equal();
     void pythagorean();
+    void meantone3();
     void meantone4();
     void meantone6();
+
+    // Irregular (well)
     void werckmeister3();
     void kirnberger2();
     void kirnberger3();
     void vallotti();
+    void young1();
 
     void calculate_frequencies();
     void calculate_cents_bps();
+    void display_temperament_table() const;
 };

@@ -1,5 +1,6 @@
 #include "temperament.hpp"
 #include <iostream>
+#include <stdio.h>
 #include <algorithm>
 #include <cmath>
 #include <map>
@@ -10,10 +11,6 @@ Constants::Constants(double pythagorean_comma, double syntonic_comma, double sch
     pythagorean_comma_ = pythagorean_comma;
     syntonic_comma_    = syntonic_comma;
     schisma_           = schisma;
-}
-
-double Constants::convert_to_cents(double ratio) {
-    return 1200.0 * log2(ratio);
 }
 
 Constants C;
@@ -39,6 +36,16 @@ string Temperament::get_starting_note() const {
 
 int Temperament::get_octave() const {
     return octave_;
+}
+
+double Temperament::convert_to_cents(double ratio) {
+    return 1200.0 * log2(ratio);
+}
+
+void Temperament::display_universal_info() const {
+    cout << "A4 = " << concertA4_ << " Hz, " 
+        << ntones_ << " tones per octave, " 
+        << octave_ << "th octave." << endl;
 }
 
 /*
@@ -76,6 +83,14 @@ void Temperament::pythagorean() {
     for (int i = 0; i < ntones_ - 1; i++) {
         temperedfractions_.push_back(0.0);
         temperedcommas_.push_back(0.0);
+    }
+}
+
+void Temperament::meantone3() {
+    cout << "Third-comma meantone." << endl;
+    for (int i = 0; i < ntones_ - 1; i++) {
+        temperedfractions_.push_back(1./3);
+        temperedcommas_.push_back(C.syntonic_comma_);
     }
 }
 
@@ -129,14 +144,24 @@ void Temperament::kirnberger3() {
 void Temperament::vallotti() {
     cout << "Vallotti." << endl;
     starting_note_ = "F"; 
-    temperedfractions_ = {
-        1./6, 1./6, 1./6, 1./6, 1./6, 1./6,
-        0, 0, 0, 0, 0
-    };
+    temperedfractions_ = {1./6, 1./6, 1./6, 1./6, 1./6, 1./6, 0, 0, 0, 0, 0};
     temperedcommas_ = {
         C.pythagorean_comma_, C.pythagorean_comma_, C.pythagorean_comma_,
         C.pythagorean_comma_, C.pythagorean_comma_, C.pythagorean_comma_,
         0, 0, 0, 0, 0
+    };
+}
+
+void Temperament::young1() {
+    cout << "Young I." << endl;
+    starting_note_ = "E-flat";
+    temperedfractions_ = {0, 1./16, 1./16, 3./16, 3./16, 3./16, 3./16, 1./16, 1./16, 0, 0};
+    temperedcommas_ = {
+        0, 
+        C.pythagorean_comma_ * pow(C.schisma_, 3), C.pythagorean_comma_ * pow(C.schisma_, 3),
+        C.syntonic_comma_, C.syntonic_comma_, C.syntonic_comma_, C.syntonic_comma_,
+        C.pythagorean_comma_ * pow(C.schisma_, 3), C.pythagorean_comma_ * pow(C.schisma_, 3),
+        0, 0
     };
 }
 
@@ -196,11 +221,20 @@ void Temperament::calculate_cents_bps() {
     }
 
     for (int i = 0; i < ntones_; i++) {
-        centsP5_.push_back(C.convert_to_cents(P5_info[i+ntones_] / P5_info[i]));
-        centsM3_.push_back(C.convert_to_cents(M3_info[i+ntones_] / M3_info[i]));
-        centsm3_.push_back(C.convert_to_cents(m3_info[i+ntones_] / m3_info[i]));
+        centsP5_.push_back(convert_to_cents(P5_info[i+ntones_] / P5_info[i]));
+        centsM3_.push_back(convert_to_cents(M3_info[i+ntones_] / M3_info[i]));
+        centsm3_.push_back(convert_to_cents(m3_info[i+ntones_] / m3_info[i]));
         bpsP5_.push_back(abs(P5_info[i+ntones_] - P5_info[i]));
         bpsM3_.push_back(abs(M3_info[i+ntones_] - M3_info[i]));
         bpsm3_.push_back(abs(m3_info[i+ntones_] - m3_info[i]));
     }
+}
+
+void Temperament::display_temperament_table() const {
+    printf("PC\tHz\tP5c\tM3c\tm3c\tP5b\tM3b\tm3b\n");
+    for (int i = 0; i < ntones_; i++)
+    printf("%d\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\n",
+        i, frequencies_[i], 
+        centsP5_[i], centsM3_[i], centsm3_[i],
+        bpsP5_[i],   bpsM3_[i],   bpsm3_[i]);
 }
