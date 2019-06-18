@@ -10,6 +10,29 @@ The main output of main.cpp is a table which lists the frequencies of 12 adjacen
 
 <sup>3</sup>The beats-per-second (bps) of a musical interval is determined by the [beating](https://en.wikipedia.org/wiki/Beat_(acoustics)) of the lowest coinciding harmonic overtones (partials), which a tuner listens to for intonation. For example, the bps of a major third is determined by the 5th partial of the lower tone to the 4th partial of the upper tone, and therefore to tune a pure major third, the tuner listens to the beating occurring two octaves and a major third above the lower tone and adjusts the pitches until the beating disappears. On real pianos, the nonideal nature of the strings contributes to the phenomenon of [inharmonicity](https://en.wikipedia.org/wiki/Inharmonicity), which raises the frequencies of the overtones relative to the fundamental. To set the temperament, tuners will typically start from the middle of the keyboard, where inharmonicity effects are least pronounced. 
 
+## Functionality and future progress
+Compile using the command ```make```, which creates the binary file ```main```. Two options are available from the command line:
+
+1. ```./main [A4] [octave]```, where ```[A4]``` is the frequency (Hz) of concert A, ```[octave]``` is the starting octave on C
+2. ```./main```, with defaults A4 = 440 Hz and octave = 4
+
+A list of temperaments can be chosen below:
+**Regular (meantone)**
+* ```pythagorean```
+* ```equal```
+* ```meantone3```
+* ```meantone4```
+* ```meantone6```
+
+**Irregular (well)**
+* ```werckmeister3```
+* ```kirnberger2```
+* ```kirnberger3```
+* ```vallotti```
+* ```young1```
+
+We intend to implement custom temperaments, more well temperaments, and non-12 tone equal temperments, with the latter having default implementations of 19ET, 31ET, and 55ET. 
+
 ## A Brief History
 
 Our ears are most accustomed to [**just intonation**](https://en.wikipedia.org/wiki/Just_intonation) which relates two tones by frequency ratios of small whole numbers. For example, if a tone is played at 256 Hz with another tone at 512 Hz, the frequency ratio is 2:1 and we perceive this interval as a perfect octave. Other consonant intervals have corresponding frequency ratios, including the perfect fifth (3:2), perfect fourth (4:3), major third (5:4), and minor third (6:5). On the other hand, two tones with a ratio of 211:128 are perceived to not be in tune because of the relatively large numbers in the ratio. Generally speaking, the smaller the numbers in the ratio, the more consonant we perceive the interval to be and the easier it is to tune two notes to that interval.

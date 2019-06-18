@@ -39,13 +39,13 @@ int Temperament::get_octave() const {
 }
 
 double Temperament::convert_to_cents(double ratio) {
-    return 1200.0 * log2(ratio);
+    return 1200 * log2(ratio);
 }
 
 void Temperament::display_universal_info() const {
     cout << "A4 = " << concertA4_ << " Hz, " 
         << ntones_ << " tones per octave, " 
-        << octave_ << "th octave." << endl;
+        << "octave " << octave_ << "." << endl;
 }
 
 /*
