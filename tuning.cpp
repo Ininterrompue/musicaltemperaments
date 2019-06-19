@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <cmath>
 
-using namespace std;
 
 Constants::Constants(double pythagorean_comma, double syntonic_comma, double schisma) {
     pythagorean_comma_ = pythagorean_comma;
@@ -15,7 +14,7 @@ Constants::Constants(double pythagorean_comma, double syntonic_comma, double sch
 Constants C;
 
 
-TuningSystem::TuningSystem(double concertA4, int ntones, string starting_note, int octave) {
+TuningSystem::TuningSystem(double concertA4, int ntones, std::string starting_note, int octave) {
     concertA4_     = concertA4;
     ntones_        = ntones;
     starting_note_ = starting_note;
@@ -40,7 +39,7 @@ int TuningSystem::get_ntones() const {
     return ntones_;
 }
 
-string TuningSystem::get_starting_note() const {
+std::string TuningSystem::get_starting_note() const {
     return starting_note_;
 }
 
@@ -53,9 +52,9 @@ double TuningSystem::convert_to_cents(double ratio) {
 }
 
 void TuningSystem::display_universal_info() const {
-    cout << "A4 = " << concertA4_ << " Hz, " 
-        << ntones_ << " tones per octave, " 
-        << "octave " << octave_ << "." << endl;
+    std::cout << "A4 = " << concertA4_ << " Hz, " 
+              << ntones_ << " tones per octave, " 
+              << "octave " << octave_ << "." << std::endl;
 }
 
 /*
@@ -66,12 +65,12 @@ void TuningSystem::pitchclass_array() {
     int starting_note_int = pitchclass_dict_[starting_note_];
     for (int i = 0; i < ntones_; i++)
         pitchclass_.push_back( (7*i + starting_note_int) % ntones_ );
-    vector<int>::iterator it = find(pitchclass_.begin(), pitchclass_.end(), 9);
+    std::vector<int>::iterator it = find(pitchclass_.begin(), pitchclass_.end(), 9);
     starting_position_ = distance(pitchclass_.begin(), it);
 }
 
 void TuningSystem::calculate_cents_bps() {
-    vector<double> P5_info, M3_info, m3_info;
+    std::vector<double> P5_info, M3_info, m3_info;
     for (auto &f : frequencies_) {
         P5_info.push_back(3*f);
         M3_info.push_back(5*f);
@@ -127,8 +126,8 @@ int JustIntonation::calculate_dist() {
 }
 
 void JustIntonation::calculate_frequencies() {
-    cout << "Just intonation, centered on " << starting_note_ << "." << endl;
-    vector<double> ratios = 
+    std::cout << "Just intonation, centered on " << starting_note_ << "." << std::endl;
+    std::vector<double> ratios = 
         {1, 16./15, 9./8, 6./5, 5./4, 4./3, 45./32, 3./2, 8./5, 5./3, 16./9, 15./8};
 
     for (int i = 0; i < ntones_; i++) {
@@ -182,7 +181,7 @@ void Temperament::calculate_frequencies() {
 }
 
 void Temperament::equal() {
-    cout << "Equal temperament." << endl;
+    std::cout << "Equal temperament." << std::endl;
     for (int i = 0; i < ntones_ - 1; i++) {
         temperedfractions_.push_back(1./ntones_);
         temperedcommas_.push_back(C.pythagorean_comma_);
@@ -190,7 +189,7 @@ void Temperament::equal() {
 }
 
 void Temperament::pythagorean() {
-    cout << "Pythagorean tuning." << endl;
+    std::cout << "Pythagorean tuning." << std::endl;
     for (int i = 0; i < ntones_ - 1; i++) {
         temperedfractions_.push_back(0.0);
         temperedcommas_.push_back(0.0);
@@ -198,7 +197,7 @@ void Temperament::pythagorean() {
 }
 
 void Temperament::meantone3() {
-    cout << "Third-comma meantone." << endl;
+    std::cout << "Third-comma meantone." << std::endl;
     for (int i = 0; i < ntones_ - 1; i++) {
         temperedfractions_.push_back(1./3);
         temperedcommas_.push_back(C.syntonic_comma_);
@@ -206,7 +205,7 @@ void Temperament::meantone3() {
 }
 
 void Temperament::meantone4() {
-    cout << "Quarter-comma meantone." << endl;
+    std::cout << "Quarter-comma meantone." << std::endl;
     for (int i = 0; i < ntones_ - 1; i++) {
         temperedfractions_.push_back(1./4);
         temperedcommas_.push_back(C.syntonic_comma_);
@@ -214,7 +213,7 @@ void Temperament::meantone4() {
 }
 
 void Temperament::meantone6() {
-    cout << "Sixth-comma meantone." << endl;
+    std::cout << "Sixth-comma meantone." << std::endl;
     for (int i = 0; i < ntones_ - 1; i++) {
         temperedfractions_.push_back(1./6);
         temperedcommas_.push_back(C.syntonic_comma_);
@@ -222,7 +221,7 @@ void Temperament::meantone6() {
 }
 
 void Temperament::werckmeister3() {
-    cout << "Werckmeister III." << endl;
+    std::cout << "Werckmeister III." << std::endl;
     starting_note_ = "C";
     temperedfractions_ = {1./4, 1./4, 1./4, 0, 0, 1./4, 0, 0, 0, 0, 0};
     temperedcommas_ = {
@@ -232,7 +231,7 @@ void Temperament::werckmeister3() {
 }
 
 void Temperament::kirnberger2() {
-    cout << "Kirnberger II." << endl;
+    std::cout << "Kirnberger II." << std::endl;
     starting_note_ = "C";
     temperedfractions_ = {0, 0, 1./2, 1./2, 0, 0, 1, 0, 0, 0, 0};
     temperedcommas_ = {
@@ -242,7 +241,7 @@ void Temperament::kirnberger2() {
 }
 
 void Temperament::kirnberger3() {
-    cout << "Kirnberger III." << endl;
+    std::cout << "Kirnberger III." << std::endl;
     starting_note_ = "C";
     temperedfractions_ = {1./4, 1./4, 1./4, 1./4, 0, 0, 1, 0, 0, 0, 0};
     temperedcommas_ = {
@@ -253,7 +252,7 @@ void Temperament::kirnberger3() {
 }
 
 void Temperament::vallotti() {
-    cout << "Vallotti." << endl;
+    std::cout << "Vallotti." << std::endl;
     starting_note_ = "F"; 
     temperedfractions_ = {1./6, 1./6, 1./6, 1./6, 1./6, 1./6, 0, 0, 0, 0, 0};
     temperedcommas_ = {
@@ -264,7 +263,7 @@ void Temperament::vallotti() {
 }
 
 void Temperament::young1() {
-    cout << "Young I." << endl;
+    std::cout << "Young I." << std::endl;
     starting_note_ = "E-flat";
     temperedfractions_ = {0, 1./16, 1./16, 3./16, 3./16, 3./16, 3./16, 1./16, 1./16, 0, 0};
     temperedcommas_ = {
@@ -309,7 +308,7 @@ void EqualBeating::calculate_frequencies() {
 }
 
 void EqualBeating::prelleur() {
-    cout << "Prelleur." << endl;
+    std::cout << "Prelleur." << std::endl;
     starting_note_ = "A-flat";
     bpsP5_ = {0, 0.4, 0.8, 1.8, 1.8, 1.8, 1.8, 1.8, 1.8, 1, 1};
 }

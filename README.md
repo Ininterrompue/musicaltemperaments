@@ -13,12 +13,12 @@ The main output of main.cpp is a table which lists the frequencies of 12 adjacen
 ## Functionality and future progress
 Compile using the command ```make```, which creates the binary file ```main```. Two options are available from the command line:
 
-1. ```./main [A4] [octave]```, where ```[A4]``` is the frequency (Hz) of concert A, ```[octave]``` is the starting octave on C
-2. ```./main```, with defaults A4 = 440 Hz and octave = 4
+1. ```./main [A4] [octave]```, where ```[A4]``` is the frequency (Hz) of concert A and ```[octave]``` is the starting octave on C
+2. ```./main```, with defaults ```[A4] = 440 Hz``` and ```[octave] = 4```
 
 The abstract class ```TuningSystem``` has three subclasses:
 
-1. ```JustIntonation```. Calculates frequencies based on frequency ratios of small whole numbers, given a starting pitch class. The tritone has a ratio of 45:32. Thus, all ratios are based only on the prime numbers 2, 3, and 5.
+1. ```JustIntonation```. Calculates frequencies based on frequency ratios of small whole numbers, given a starting pitch class. The tritone has a ratio of 45:32. Thus, all ratios are by default based only on the prime numbers 2, 3, and 5.
 2. ```Temperament```. Contains temperaments defined by the tempering of the perfect fifths. Included are the ```pythagorean``` (zero-comma meantone) and ```equal``` (twelfth-comma meantone, where this comma is Pythagorean) temperaments.
 3. ```EqualBeating```. Contains temperaments defined by the bps of the perfect fifths in the 4th octave.
 
@@ -41,11 +41,11 @@ The full list of available temperaments is given as follows:
 **Equal-beating**
 * ```prelleur```
 
-In the future, we intend to implement custom temperaments and non-12 tone equal temperments, with the latter having default implementations of 19ET, 31ET, and 55ET. 
+In the future, we intend to implement custom temperaments and non-12 tone equal temperaments, with the latter having default implementations of 19ET, 31ET, and 55ET. 
 
 ## A Brief History
 
-Our ears are most accustomed to [**just intonation**](https://en.wikipedia.org/wiki/Just_intonation) which relates two tones by frequency ratios of small whole numbers. For example, if a tone is played at 256 Hz with another tone at 512 Hz, the frequency ratio is 2:1 and we perceive this interval as a perfect octave. Other consonant intervals have corresponding frequency ratios, including the perfect fifth (3:2), perfect fourth (4:3), major third (5:4), and minor third (6:5). On the other hand, two tones with a ratio of 211:128 are perceived to not be in tune because of the relatively large numbers in the ratio. Generally speaking, the smaller the numbers in the ratio, the more consonant we perceive the interval to be and the easier it is to tune two notes to that interval.
+Our ears are most accustomed to [**just intonation**](https://en.wikipedia.org/wiki/Just_intonation), which relates two tones by frequency ratios of small whole numbers. For example, if a tone is played at 256 Hz with another tone at 512 Hz, the frequency ratio is 2:1 and we perceive this interval as a perfect octave. Other consonant intervals have corresponding frequency ratios, including the perfect fifth (3:2), perfect fourth (4:3), major third (5:4), and minor third (6:5). On the other hand, two tones with a ratio of 211:128 are perceived to not be in tune because of the relatively large numbers in the ratio. Generally speaking, the smaller the numbers in the ratio, the more consonant we perceive the interval to be and the easier it is to tune two notes to that interval.
 
 The most basic tuning system is [**Pythagorean tuning**](https://en.wikipedia.org/wiki/Pythagorean_tuning), which involves only the perfect fifth and the intervals created by stacking these fifths. The perfect fifth consists of 7 semitones, while the octave consists of 12. Because 7 and 12 are coprime, the perfect fifth alone can be used to tune every note within the octave. However, it is a well-known problem that 12 fifths fail to close on itself; the resulting interval "should" be exactly 7 perfect octaves, as can easily be demonstrated on a keyboard, but in fact is slightly too wide. The anomalous interval is known as the [**Pythagorean comma**](https://en.wikipedia.org/wiki/Pythagorean_comma) ((3/2)<sup>12</sup>:2<sup>7</sup>, about 23.46 cents). The presence of this comma means that in Pythagorean tuning, one of the fifths is actually too narrow; it is aptly labeled as a "wolf" fifth. Worse, the tertian harmony ubiquitous in Western music is very dissonant in this tuning system, because the (Pythagorean) major thirds are too wide, while the minor thirds are too narrow.
 

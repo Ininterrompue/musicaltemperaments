@@ -2,7 +2,6 @@
 #include <vector>
 #include <map>
 
-using namespace std;
 
 class Constants {
 public:
@@ -20,27 +19,27 @@ class TuningSystem {
 protected:
     double concertA4_;
     int ntones_;
-    string starting_note_;
+    std::string starting_note_;
     int octave_;
     unsigned int starting_position_;
 
 public: 
-    vector<int>    pitchclass_;
-    map<string, int> pitchclass_dict_;
-    vector<double> frequencies_;
-    vector<double> centsP5_;
-    vector<double> centsM3_;
-    vector<double> centsm3_;
-    vector<double> bpsP5_;
-    vector<double> bpsM3_;
-    vector<double> bpsm3_;
+    std::vector<int>    pitchclass_;
+    std::map<std::string, int> pitchclass_dict_;
+    std::vector<double> frequencies_;
+    std::vector<double> centsP5_;
+    std::vector<double> centsM3_;
+    std::vector<double> centsm3_;
+    std::vector<double> bpsP5_;
+    std::vector<double> bpsM3_;
+    std::vector<double> bpsm3_;
 
-    TuningSystem(double concertA4 = 440.0,        int ntones = 12, 
-                 string starting_note = "E-flat", int octave = 4);
+    TuningSystem(double concertA4 = 440.0,             int ntones = 12, 
+                 std::string starting_note = "E-flat", int octave = 4);
 
     double get_concertA4() const;
     int get_ntones() const;
-    string get_starting_note() const;
+    std::string get_starting_note() const;
     int get_octave() const;
     void display_universal_info() const;
     double convert_to_cents(double ratio);
@@ -61,8 +60,8 @@ public:
 
 class Temperament: public TuningSystem {
 public:
-    vector<double> temperedfractions_;
-    vector<double> temperedcommas_;
+    std::vector<double> temperedfractions_;
+    std::vector<double> temperedcommas_;
 
     using TuningSystem::TuningSystem;
 

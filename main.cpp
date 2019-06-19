@@ -15,13 +15,13 @@ int main(int argc, char *argv[]) {
         octave = 4;
     }
     else {
-        cout << "./main [A4] [octave] temperament." << endl;
-        cout << "Default is A4 = 440 Hz, 4th octave." << endl;
+        std::cout << "./main [A4] [octave] temperament." << std::endl;
+        std::cout << "Default is A4 = 440 Hz, 4th octave." << std::endl;
         return 1;
     }
 
-    JustIntonation t0(concertA4, 12, "A", octave);
-    // t0.equal();
+    Temperament t0(concertA4, 12, "A", octave);
+    t0.equal();
 
     t0.display_universal_info();
     t0.calculate_frequencies();
