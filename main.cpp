@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
     }
 
     Temperament t0(concertA4, 12, "A", octave);
-    t0.equal();
+    t0.meantone4();
 
     t0.display_universal_info();
     t0.calculate_frequencies();

@@ -5,13 +5,9 @@
 #include <cmath>
 
 
-Constants::Constants(double pythagorean_comma, double syntonic_comma, double schisma) {
-    pythagorean_comma_ = pythagorean_comma;
-    syntonic_comma_    = syntonic_comma;
-    schisma_           = schisma;
-}
-
-Constants C;
+double Constants::pythagorean_comma_ = 1.0136432647705078125;
+double Constants::syntonic_comma_    = 1.0125;
+double Constants::schisma_           = 1.001129150390625;
 
 
 TuningSystem::TuningSystem(double concertA4, int ntones, std::string starting_note, int octave) {
@@ -104,19 +100,23 @@ void TuningSystem::calculate_cents_bps() {
         centsP5_.push_back(convert_to_cents(P5_info[i+ntones_] / P5_info[i]));
         centsM3_.push_back(convert_to_cents(M3_info[i+ntones_] / M3_info[i]));
         centsm3_.push_back(convert_to_cents(m3_info[i+ntones_] / m3_info[i]));
-        bpsP5_.push_back(abs(P5_info[i+ntones_] - P5_info[i]));
-        bpsM3_.push_back(abs(M3_info[i+ntones_] - M3_info[i]));
-        bpsm3_.push_back(abs(m3_info[i+ntones_] - m3_info[i]));
+        bpsP5_.push_back(fabs(P5_info[i+ntones_] - P5_info[i]));
+        bpsM3_.push_back(fabs(M3_info[i+ntones_] - M3_info[i]));
+        bpsm3_.push_back(fabs(m3_info[i+ntones_] - m3_info[i]));
     }
+    for (int i = 0; i < ntones_; i++) {
+        std::cout << P5_info[i+ntones_] - P5_info[i] << std::endl;
+    }
+    
 }
 
 void TuningSystem::display_tuning_table() const {
     printf("PC\tHz\tP5c\tM3c\tm3c\tP5b\tM3b\tm3b\n");
     for (int i = 0; i < ntones_; i++)
-    printf("%d\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\n",
-        i, frequencies_[i], 
-        centsP5_[i], centsM3_[i], centsm3_[i],
-        bpsP5_[i],   bpsM3_[i],   bpsm3_[i]);
+        printf("%d\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\n",
+            i, frequencies_[i], 
+            centsP5_[i], centsM3_[i], centsm3_[i],
+            bpsP5_[i],   bpsM3_[i],   bpsm3_[i]);
 }
 
 
@@ -182,14 +182,16 @@ void Temperament::calculate_frequencies() {
 
 void Temperament::equal() {
     std::cout << "Equal temperament." << std::endl;
+    starting_note_ = "E-flat";
     for (int i = 0; i < ntones_ - 1; i++) {
         temperedfractions_.push_back(1./ntones_);
-        temperedcommas_.push_back(C.pythagorean_comma_);
+        temperedcommas_.push_back(Constants::pythagorean_comma_);
     }
 }
 
 void Temperament::pythagorean() {
     std::cout << "Pythagorean tuning." << std::endl;
+    starting_note_ = "E-flat";
     for (int i = 0; i < ntones_ - 1; i++) {
         temperedfractions_.push_back(0.0);
         temperedcommas_.push_back(0.0);
@@ -198,25 +200,28 @@ void Temperament::pythagorean() {
 
 void Temperament::meantone3() {
     std::cout << "Third-comma meantone." << std::endl;
+    starting_note_ = "E-flat";
     for (int i = 0; i < ntones_ - 1; i++) {
         temperedfractions_.push_back(1./3);
-        temperedcommas_.push_back(C.syntonic_comma_);
+        temperedcommas_.push_back(Constants::syntonic_comma_);
     }
 }
 
 void Temperament::meantone4() {
     std::cout << "Quarter-comma meantone." << std::endl;
+    starting_note_ = "E-flat";
     for (int i = 0; i < ntones_ - 1; i++) {
         temperedfractions_.push_back(1./4);
-        temperedcommas_.push_back(C.syntonic_comma_);
+        temperedcommas_.push_back(Constants::syntonic_comma_);
     }
 }
 
 void Temperament::meantone6() {
     std::cout << "Sixth-comma meantone." << std::endl;
+    starting_note_ = "E-flat";
     for (int i = 0; i < ntones_ - 1; i++) {
         temperedfractions_.push_back(1./6);
-        temperedcommas_.push_back(C.syntonic_comma_);
+        temperedcommas_.push_back(Constants::syntonic_comma_);
     }
 }
 
@@ -225,8 +230,9 @@ void Temperament::werckmeister3() {
     starting_note_ = "C";
     temperedfractions_ = {1./4, 1./4, 1./4, 0, 0, 1./4, 0, 0, 0, 0, 0};
     temperedcommas_ = {
-        C.pythagorean_comma_, C.pythagorean_comma_, C.pythagorean_comma_,
-        0, 0, C.pythagorean_comma_, 0, 0, 0, 0, 0
+        Constants::pythagorean_comma_, Constants::pythagorean_comma_, 
+        Constants::pythagorean_comma_, 0, 0, Constants::pythagorean_comma_, 
+        0, 0, 0, 0, 0
     };
 }
 
@@ -235,8 +241,8 @@ void Temperament::kirnberger2() {
     starting_note_ = "C";
     temperedfractions_ = {0, 0, 1./2, 1./2, 0, 0, 1, 0, 0, 0, 0};
     temperedcommas_ = {
-        0, 0, C.syntonic_comma_, C.syntonic_comma_,
-        0, 0, C.schisma_, 0, 0, 0, 0
+        0, 0, Constants::syntonic_comma_, Constants::syntonic_comma_,
+        0, 0, Constants::schisma_, 0, 0, 0, 0
     };
 }
 
@@ -245,9 +251,9 @@ void Temperament::kirnberger3() {
     starting_note_ = "C";
     temperedfractions_ = {1./4, 1./4, 1./4, 1./4, 0, 0, 1, 0, 0, 0, 0};
     temperedcommas_ = {
-        C.syntonic_comma_, C.syntonic_comma_, 
-        C.syntonic_comma_, C.syntonic_comma_,
-        0, 0, C.schisma_, 0, 0, 0, 0
+        Constants::syntonic_comma_, Constants::syntonic_comma_, 
+        Constants::syntonic_comma_, Constants::syntonic_comma_,
+        0, 0, Constants::schisma_, 0, 0, 0, 0
     };
 }
 
@@ -256,8 +262,9 @@ void Temperament::vallotti() {
     starting_note_ = "F"; 
     temperedfractions_ = {1./6, 1./6, 1./6, 1./6, 1./6, 1./6, 0, 0, 0, 0, 0};
     temperedcommas_ = {
-        C.pythagorean_comma_, C.pythagorean_comma_, C.pythagorean_comma_,
-        C.pythagorean_comma_, C.pythagorean_comma_, C.pythagorean_comma_,
+        Constants::pythagorean_comma_, Constants::pythagorean_comma_, 
+        Constants::pythagorean_comma_, Constants::pythagorean_comma_, 
+        Constants::pythagorean_comma_, Constants::pythagorean_comma_,
         0, 0, 0, 0, 0
     };
 }
@@ -268,9 +275,12 @@ void Temperament::young1() {
     temperedfractions_ = {0, 1./16, 1./16, 3./16, 3./16, 3./16, 3./16, 1./16, 1./16, 0, 0};
     temperedcommas_ = {
         0, 
-        C.pythagorean_comma_ * pow(C.schisma_, 3), C.pythagorean_comma_ * pow(C.schisma_, 3),
-        C.syntonic_comma_, C.syntonic_comma_, C.syntonic_comma_, C.syntonic_comma_,
-        C.pythagorean_comma_ * pow(C.schisma_, 3), C.pythagorean_comma_ * pow(C.schisma_, 3),
+        Constants::pythagorean_comma_ * pow(Constants::schisma_, 3), 
+        Constants::pythagorean_comma_ * pow(Constants::schisma_, 3),
+        Constants::syntonic_comma_, Constants::syntonic_comma_, 
+        Constants::syntonic_comma_, Constants::syntonic_comma_,
+        Constants::pythagorean_comma_ * pow(Constants::schisma_, 3), 
+        Constants::pythagorean_comma_ * pow(Constants::schisma_, 3),
         0, 0
     };
 }

@@ -5,13 +5,9 @@
 
 class Constants {
 public:
-    double pythagorean_comma_;
-    double syntonic_comma_;
-    double schisma_;
-
-    Constants(double pythagorean_comma = 1.0136432647705078125, 
-              double syntonic_comma    = 1.0125, 
-              double schisma           = 1.001129150390625);
+    static double pythagorean_comma_;
+    static double syntonic_comma_;
+    static double schisma_;
 };
 
 
@@ -24,7 +20,7 @@ protected:
     unsigned int starting_position_;
 
 public: 
-    std::vector<int>    pitchclass_;
+    std::vector<int> pitchclass_;
     std::map<std::string, int> pitchclass_dict_;
     std::vector<double> frequencies_;
     std::vector<double> centsP5_;
