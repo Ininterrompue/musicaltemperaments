@@ -100,14 +100,10 @@ void TuningSystem::calculate_cents_bps() {
         centsP5_.push_back(convert_to_cents(P5_info[i+ntones_] / P5_info[i]));
         centsM3_.push_back(convert_to_cents(M3_info[i+ntones_] / M3_info[i]));
         centsm3_.push_back(convert_to_cents(m3_info[i+ntones_] / m3_info[i]));
-        bpsP5_.push_back(fabs(P5_info[i+ntones_] - P5_info[i]));
-        bpsM3_.push_back(fabs(M3_info[i+ntones_] - M3_info[i]));
-        bpsm3_.push_back(fabs(m3_info[i+ntones_] - m3_info[i]));
+        bpsP5_.push_back(std::abs(P5_info[i+ntones_] - P5_info[i]));
+        bpsM3_.push_back(std::abs(M3_info[i+ntones_] - M3_info[i]));
+        bpsm3_.push_back(std::abs(m3_info[i+ntones_] - m3_info[i]));
     }
-    for (int i = 0; i < ntones_; i++) {
-        std::cout << P5_info[i+ntones_] - P5_info[i] << std::endl;
-    }
-    
 }
 
 void TuningSystem::display_tuning_table() const {
