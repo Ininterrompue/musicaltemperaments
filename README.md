@@ -16,22 +16,32 @@ Compile using the command ```make```, which creates the binary file ```main```. 
 1. ```./main [A4] [octave]```, where ```[A4]``` is the frequency (Hz) of concert A, ```[octave]``` is the starting octave on C
 2. ```./main```, with defaults A4 = 440 Hz and octave = 4
 
-A list of temperaments can be chosen below:
-**Regular (meantone)**
+The abstract class ```TuningSystem``` has three subclasses:
+
+1. ```JustIntonation```. Calculates frequencies based on frequency ratios of small whole numbers, given a starting pitch class. The tritone has a ratio of 45:32. Thus, all ratios are based only on the prime numbers 2, 3, and 5.
+2. ```Temperament```. Contains temperaments defined by the tempering of the perfect fifths. Included are the ```pythagorean``` (zero-comma meantone) and ```equal``` (twelfth-comma meantone, where this comma is Pythagorean) temperaments.
+3. ```EqualBeating```. Contains temperaments defined by the bps of the perfect fifths in the 4th octave.
+
+The full list of available temperaments is given as follows:
+
+**Meantone**
 * ```pythagorean```
 * ```equal```
 * ```meantone3```
 * ```meantone4```
 * ```meantone6```
 
-**Irregular (well)**
+**Well**
 * ```werckmeister3```
 * ```kirnberger2```
 * ```kirnberger3```
 * ```vallotti```
 * ```young1```
 
-We intend to implement custom temperaments, more well temperaments, and non-12 tone equal temperments, with the latter having default implementations of 19ET, 31ET, and 55ET. 
+**Equal-beating**
+* ```prelleur```
+
+In the future, we intend to implement custom temperaments and non-12 tone equal temperments, with the latter having default implementations of 19ET, 31ET, and 55ET. 
 
 ## A Brief History
 

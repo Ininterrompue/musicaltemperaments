@@ -1,4 +1,4 @@
-#include "temperament.hpp"
+#include "tuning.hpp"
 #include <iostream>
 #include <map>
 
@@ -20,13 +20,13 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    Temperament t0(concertA4, 12, "E-flat", octave);
-    t0.equal();
+    JustIntonation t0(concertA4, 12, "A", octave);
+    // t0.equal();
 
     t0.display_universal_info();
     t0.calculate_frequencies();
     t0.calculate_cents_bps();
-    t0.display_temperament_table();
+    t0.display_tuning_table();
     
     return 0;
 }

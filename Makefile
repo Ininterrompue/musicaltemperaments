@@ -1,7 +1,7 @@
 COMPILER = g++
 CPPFLAGS = -std=c++11 -Wall -O3
 PROGRAM  = main
-OBJECTS  = main.o temperament.o
+OBJECTS  = main.o tuning.o
 
 $(PROGRAM): $(OBJECTS)
 	$(COMPILER) $(CPPFLAGS) -o $@ $^
