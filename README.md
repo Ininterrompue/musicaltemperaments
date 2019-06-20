@@ -14,7 +14,7 @@ The main output of main.cpp is a table which lists the frequencies of 12 adjacen
 Compile using the command ```make```, which creates the binary file ```main```. Two options are available from the command line:
 
 1. ```./main [concertA4] [octave] [starting_note]```, where ```[concertA4]``` is the frequency (Hz) of concert A and ```[octave]``` is the starting octave on C. The command ```[starting_note]``` has two different meanings depending on the tuning system used, as elaborated below.
-2. ```./main```, with defaults ```[A4] = 440 Hz```, ```[octave] = 4```, and ```[starting_note] = ```
+2. ```./main```, with defaults ```[A4] = 440 Hz```, ```[octave] = 4```, and ```[starting_note] = E-flat```.
 
 The abstract class ```TuningSystem``` has three subclasses:
 
