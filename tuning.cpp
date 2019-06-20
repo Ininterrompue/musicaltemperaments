@@ -65,6 +65,11 @@ void TuningSystem::pitchclass_array() {
     starting_position_ = distance(pitchclass_.begin(), it);
 }
 
+void TuningSystem::correct_octave() {
+    for (auto &f : frequencies_)
+        f *= exp2(octave_ - 4);
+}
+
 void TuningSystem::calculate_cents_bps() {
     std::vector<double> P5_info, M3_info, m3_info;
     for (auto &f : frequencies_) {
@@ -145,8 +150,7 @@ void JustIntonation::calculate_frequencies() {
             frequencies_[j] *= 0.5;
     }
 
-    for (auto &f : frequencies_)
-        f *= exp2(octave_ - 4);
+    correct_octave();
 }
 
 
@@ -172,8 +176,7 @@ void Temperament::calculate_frequencies() {
             frequencies_[pitchclass_[i]] *= 2.0;
     }
 
-    for (auto &f : frequencies_)
-        f *= exp2(octave_ - 4);
+    correct_octave();
 }
 
 void Temperament::equal() {
@@ -218,6 +221,14 @@ void Temperament::meantone6() {
     for (int i = 0; i < ntones_ - 1; i++) {
         temperedfractions_.push_back(1./6);
         temperedcommas_.push_back(Constants::syntonic_comma_);
+    }
+}
+
+void Temperament::meantone(double temper, double comma) {
+    std::cout << "Custom meantone." << std::endl;
+    for (int i = 0; i < ntones_ - 1; i++) {
+        temperedfractions_.push_back(temper);
+        temperedcommas_.push_back(comma);
     }
 }
 
@@ -309,8 +320,7 @@ void EqualBeating::calculate_frequencies() {
         }
     }
 
-    for (auto &f : frequencies_)
-        f *= exp2(octave_ - 4);
+    correct_octave();
 }
 
 void EqualBeating::prelleur() {

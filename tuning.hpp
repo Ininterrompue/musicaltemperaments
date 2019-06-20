@@ -19,7 +19,6 @@ protected:
     int octave_;
     unsigned int starting_position_;
 
-public: 
     std::vector<int> pitchclass_;
     std::map<std::string, int> pitchclass_dict_;
     std::vector<double> frequencies_;
@@ -30,6 +29,7 @@ public:
     std::vector<double> bpsM3_;
     std::vector<double> bpsm3_;
 
+public: 
     TuningSystem(double concertA4 = 440.0,             int ntones = 12, 
                  std::string starting_note = "E-flat", int octave = 4);
 
@@ -40,6 +40,7 @@ public:
     void display_universal_info() const;
     double convert_to_cents(double ratio);
     void pitchclass_array();
+    void correct_octave();
 
     void calculate_cents_bps();
     void display_tuning_table() const;
@@ -67,6 +68,7 @@ public:
     void meantone3();
     void meantone4();
     void meantone6();
+    void meantone(double temper, double comma);
 
     // Well temperaments
     void werckmeister3();
