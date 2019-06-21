@@ -14,37 +14,41 @@ The main output of main.cpp is a table which lists the frequencies of 12 adjacen
 Compile using the command ```make```, which creates the binary file ```main```. Two options are available from the command line:
 
 1. ```./main [concertA4] [starting_note] [octave]```, where ```[concertA4]``` is the frequency (Hz) of concert A and ```[octave]``` is the starting octave on C. The command ```[starting_note]``` has two different meanings depending on the tuning system used, as elaborated below.
-2. ```./main```, with defaults ```[A4] = 440 Hz```, ```[octave] = 4```, and ```[starting_note] = E-flat```.
+2. ```./main```, with defaults ```[concertA4] = 440 Hz```, ```[octave] = 4```, and ```[starting_note] = E-flat```.
 
 The abstract class ```TuningSystem``` has four subclasses:
 
 1. ```JustIntonation```. Calculates frequencies based on frequency ratios of small whole numbers, given a starting pitch class. The tritone has a ratio of 45:32. Thus, all ratios are by default based only on the prime numbers 2, 3, and 5. In just intonation, ```[starting_note]``` is the reference pitch class upon which the other 11 pitch classes are tuned to.
-2. ```Temperament```. Contains temperaments defined by the tempering of the perfect fifths. Included are the ```pythagorean``` (zero-comma meantone) and ```equal``` (twelfth-comma meantone, where this comma is Pythagorean) temperaments. For meantone temperaments, ```[starting_note]``` refers to the upper note of the wolf fifth, or equivalently, the "flattest" note. The default of ```E-flat``` places the wolf at G-sharp - E-flat. 
-3. ```EqualTemperament```. Calculates frequencies based on the nth root of 2. The lowest pitch class is defaulted as ```C```. The way the frequencies are calculated forces ```[starting_note] = C```.
-4. ```EqualBeating```. Contains temperaments defined by the bps of the perfect fifths in the 4th octave.
+2. ```Temperament```. Contains temperaments defined by the tempering of the perfect fifths. Included are the ```pythagorean``` (zero-comma meantone) and ```equal``` (approximately eleventh-comma meantone) temperaments. For meantone temperaments, ```[starting_note]``` refers to the upper note of the wolf fifth, or equivalently, the "flattest" note. The default of ```E-flat``` places the wolf at G-sharp - E-flat. 
+3. ```BpsTemperament```. Contains temperaments defined by the bps of the perfect fifths specified in the 4th octave. These are sometimes referred to as equal-beating temperaments, though equal-beating may also refer to temperaments which are designed to have small whole number ratios of the bps of the intervals in major/minor triads. 
+4. ```EqualTemperament```. Calculates frequencies based on the nth root of 2. The lowest pitch class is defaulted as ```C```. The way the frequencies are calculated in this class forces ```[starting_note] = C```.
 
-The full list of available temperaments is given as follows:
 
-**Meantone**
+The full list of available temperaments in each class is given as follows:
+
+**JustIntonation**
+
+**Temperament**
 * ```pythagorean```
 * ```equal```
 * ```meantone3```
 * ```meantone4```
 * ```meantone6```
 * ```meantoneN``` (Nth-comma)
-
-**Well**
 * ```werckmeister3```
 * ```kirnberger2```
 * ```kirnberger3```
 * ```vallotti```
 * ```young1```
 
-**Equal**
-* ```equalN``` (N-EDO)
-
-**Equal-beating**
+**BpsTemperament**
 * ```prelleur```
+* ```tansur```
+* ```ellis1875```
+* ```ellis1885```
+
+**EqualTemperament**
+* ```equalN``` (N-EDO)
 
 In the future, we intend to implement an interface for custom temperaments, as well as a method of combining instructions for the perfect fifths with respect to the tempering and bps.
 

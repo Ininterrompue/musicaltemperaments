@@ -25,11 +25,8 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // Temperament t0(concertA4, starting_note, octave);
-    // t0.meantone(1./12, Constants::pythagorean_comma_);
-
-    EqualTemperament t0(concertA4, starting_note, octave);
-    t0.equaln(55);
+    BpsTemperament t0(concertA4, starting_note, octave);
+    t0.ellis1875();
 
     t0.display_universal_info();
     t0.calculate_frequencies();

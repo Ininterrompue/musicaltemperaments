@@ -90,11 +90,14 @@ public:
     void calculate_frequencies();
 };
 
-class EqualBeating: public TuningSystem {
+class BpsTemperament: public TuningSystem {
 public:
     using TuningSystem::TuningSystem;
 
     void prelleur();
+    void tansur();
+    void ellis1875();
+    void ellis1885();
 
     void calculate_frequencies();
 };

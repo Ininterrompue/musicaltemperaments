@@ -142,16 +142,16 @@ void Temperament::calculate_frequencies() {
 
     // A -> E -> ...
     for (unsigned int i = starting_position_ + 1; i < pitchclass_.size(); i++) {
-        frequencies_.at(pitchclass_.at(i)) = 3./2 * frequencies_.at(pitchclass_.at(i-1)) /
-            pow(temperedcommas_.at(i-1), temperedfractions_.at(i-1));
+        frequencies_.at(pitchclass_.at(i)) = 3./2 * frequencies_.at(pitchclass_.at(i-1))
+            / pow(temperedcommas_.at(i-1), temperedfractions_.at(i-1));
         if (pitchclass_.at(i) - pitchclass_.at(i-1) < 0)
             frequencies_.at(pitchclass_.at(i)) *= 0.5;
     }
 
     // ... <- D <- A
     for (int i = starting_position_ - 1; i >= 0; i--) {
-        frequencies_.at(pitchclass_.at(i)) = 2./3 * frequencies_.at(pitchclass_.at(i+1)) *
-            pow(temperedcommas_.at(i), temperedfractions_.at(i));
+        frequencies_.at(pitchclass_.at(i)) = 2./3 * frequencies_.at(pitchclass_.at(i+1))
+            * pow(temperedcommas_.at(i), temperedfractions_.at(i));
         if (pitchclass_.at(i) - pitchclass_.at(i+1) > 0)
             frequencies_.at(pitchclass_.at(i)) *= 2.0;
     }
@@ -302,7 +302,7 @@ void EqualTemperament::equalN(int ntones) {
 }
 
 
-void EqualBeating::calculate_frequencies() {
+void BpsTemperament::calculate_frequencies() {
     pitchclass_array();
     for (int i = 0; i < ntones_; i++)
         frequencies_.push_back(0.0);
@@ -313,27 +313,42 @@ void EqualBeating::calculate_frequencies() {
 
     // A -> E -> ...
     for (unsigned int i = starting_position_ + 1; i < pitchclass_.size(); i++) {
-        frequencies_.at(pitchclass_.at(i)) = 3./2 * frequencies_.at(pitchclass_.at(i-1)) -
-            1./2 * bpsP5_.at(i-1);
+        frequencies_.at(pitchclass_.at(i)) = 3./2 * frequencies_.at(pitchclass_.at(i-1))
+            - 1./2 * bpsP5_.at(i-1);
         if (pitchclass_.at(i) - pitchclass_.at(i-1) < 0)
             frequencies_.at(pitchclass_.at(i)) *= 0.5;
     }
 
     // ... <- D <- A
     for (int i = starting_position_ - 1; i >= 0; i--) {
-        frequencies_.at(pitchclass_.at(i)) = 2./3 * frequencies_.at(pitchclass_.at(i+1)) +
-            1./3 * bpsP5_.at(i);
-        if (pitchclass_.at(i) - pitchclass_.at(i+1) > 0) {
-            frequencies_.at(pitchclass_.at(i)) *= 2.0;
-            frequencies_.at(pitchclass_.at(i)) -= 1./3 * bpsP5_.at(i);
-        }
+        frequencies_.at(pitchclass_.at(i)) = pitchclass_.at(i) - pitchclass_.at(i+1) < 0
+            ? 2./3 * frequencies_.at(pitchclass_.at(i+1)) + 1./3 * bpsP5_.at(i)
+            : 4./3 * frequencies_.at(pitchclass_.at(i+1)) + 1./3 * bpsP5_.at(i);
     }
 
     correct_octave();
 }
 
-void EqualBeating::prelleur() {
+void BpsTemperament::prelleur() {
     std::cout << "Prelleur." << std::endl;
     starting_note_ = "A-flat";
     bpsP5_ = {0, 0.4, 0.8, 1.8, 1.8, 1.8, 1.8, 1.8, 1.8, 1, 1};
+}
+
+void BpsTemperament::tansur() {
+    std::cout << "Tans'ur." << std::endl;
+    starting_note_ = "E-flat";
+    bpsP5_ = {0, 0, 0, 1.3, 2.6, 2.6, 2.6, 2.6, 2.6, 0, 0};
+}
+
+void BpsTemperament::ellis1875() {
+    std::cout << "Ellis's 1875 quasiequal." << std::endl;
+    starting_note_ = "C";
+    bpsP5_ = {1, 1.5, 1, 1.5, 1, 1.5, 1.5, 1, 1.5, 1, 1.5};
+}
+
+void BpsTemperament::ellis1885() {
+    std::cout << "Ellis's 1885 quasiequal." << std::endl;
+    starting_note_ = "C";
+    bpsP5_ = {1, 1.2, 1, 1.2, 1, 2, 1.2, 1, 1.2, 1, 2};
 }
