@@ -66,7 +66,7 @@ public:
     void meantone3();
     void meantone4();
     void meantone6();
-    void meantone(double temper, double comma);
+    void meantoneN(double temper, double comma);
 
     // Well temperaments
     void werckmeister3();
@@ -85,11 +85,7 @@ private:
 public:
     using TuningSystem::TuningSystem;
 
-    void equal12();
-    void equal19();
-    void equal31();
-    void equal53();
-    void equaln(int ntones);
+    void equalN(int ntones);
 
     void calculate_frequencies();
 };

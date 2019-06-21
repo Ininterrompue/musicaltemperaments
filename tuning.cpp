@@ -204,7 +204,7 @@ void Temperament::meantone6() {
     }
 }
 
-void Temperament::meantone(double temper, double comma) {
+void Temperament::meantoneN(double temper, double comma) {
     std::cout << "Custom meantone." << std::endl;
     for (int i = 0; i < ntones_ - 1; i++) {
         temperedfractions_.push_back(temper);
@@ -284,35 +284,7 @@ void EqualTemperament::calculate_frequencies() {
     correct_octave();
 }
 
-void EqualTemperament::equal12() {
-    ntones_ = 12;
-    P5steps_ = 7;
-    M3steps_ = 4;
-    m3steps_ = 3;
-}
-
-void EqualTemperament::equal19() {
-    ntones_ = 19;
-    P5steps_ = 11;
-    M3steps_ = 6;
-    m3steps_ = 5;
-}
-
-void EqualTemperament::equal31() {
-    ntones_ = 31;
-    P5steps_ = 18;
-    M3steps_ = 10;
-    m3steps_ = 8;
-}
-
-void EqualTemperament::equal53() {
-    ntones_ = 53;
-    P5steps_ = 31;
-    M3steps_ = 17;
-    m3steps_ = 14;
-}
-
-void EqualTemperament::equaln(int ntones) {
+void EqualTemperament::equalN(int ntones) {
     ntones_ = ntones;
 
     std::vector<double> P5dist;

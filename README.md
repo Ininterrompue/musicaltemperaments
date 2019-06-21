@@ -10,7 +10,7 @@ The main output of main.cpp is a table which lists the frequencies of 12 adjacen
 
 <sup>3</sup>The beats-per-second (bps) of a musical interval is determined by the [beating](https://en.wikipedia.org/wiki/Beat_(acoustics)) of the lowest coinciding harmonic overtones (partials), which a tuner listens to for intonation. For example, the bps of a major third is determined by the 5th partial of the lower tone to the 4th partial of the upper tone, and therefore to tune a pure major third, the tuner listens to the beating occurring two octaves and a major third above the lower tone and adjusts the pitches until the beating disappears. On real pianos, the nonideal nature of the strings contributes to the phenomenon of [inharmonicity](https://en.wikipedia.org/wiki/Inharmonicity), which raises the frequencies of the overtones relative to the fundamental. To set the temperament, tuners will typically start from the middle of the keyboard, where inharmonicity effects are least pronounced. 
 
-## Functionality and future progress
+## Functionality
 Compile using the command ```make```, which creates the binary file ```main```. Two options are available from the command line:
 
 1. ```./main [concertA4] [starting_note] [octave]```, where ```[concertA4]``` is the frequency (Hz) of concert A and ```[octave]``` is the starting octave on C. The command ```[starting_note]``` has two different meanings depending on the tuning system used, as elaborated below.
@@ -31,7 +31,7 @@ The full list of available temperaments is given as follows:
 * ```meantone3```
 * ```meantone4```
 * ```meantone6```
-* ```meantone``` (Custom)
+* ```meantoneN``` (Nth-comma)
 
 **Well**
 * ```werckmeister3```
@@ -41,11 +41,7 @@ The full list of available temperaments is given as follows:
 * ```young1```
 
 **Equal**
-* ```equal12``` (Equivalent to ```equal```)
-* ```equal19```
-* ```equal31```
-* ```equal53```
-* ```equaln``` (n-EDO)
+* ```equalN``` (N-EDO)
 
 **Equal-beating**
 * ```prelleur```
