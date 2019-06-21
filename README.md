@@ -1,6 +1,6 @@
 ## Introduction
 
-This repository is intended as a guide for various different temperaments that have been developed throughout history to tune keyboard instruments such as the organ, harpsichord, and piano. The fundamental problem that every temperament seeks to solve is how to tune the 12 fixed notes within an octave. Unlike the voice or string instruments, these notes are fixed and cannot practically be adjusted during a performance.
+This repository is intended to be a resource about various different temperaments that have been developed throughout history to tune keyboard instruments such as the organ, harpsichord, and piano. The fundamental problem that every temperament seeks to solve is how to tune the 12 fixed notes within an octave. Unlike the voice or string instruments, these notes are fixed and cannot practically be adjusted during a performance.
 
 The main output of main.cpp is a table which lists the frequencies of 12 adjacent notes beginning on C, with the starting octave<sup>1</sup> specified by the user. From these frequencies, the widths of the intervals compared to their just counterparts<sup>2</sup> and the associated beats-per-second<sup>3</sup> are also listed. Each row corresponds to the lower tone of the intervals.
 
@@ -13,14 +13,15 @@ The main output of main.cpp is a table which lists the frequencies of 12 adjacen
 ## Functionality and future progress
 Compile using the command ```make```, which creates the binary file ```main```. Two options are available from the command line:
 
-1. ```./main [concertA4] [octave] [starting_note]```, where ```[concertA4]``` is the frequency (Hz) of concert A and ```[octave]``` is the starting octave on C. The command ```[starting_note]``` has two different meanings depending on the tuning system used, as elaborated below.
+1. ```./main [concertA4] [starting_note] [octave]```, where ```[concertA4]``` is the frequency (Hz) of concert A and ```[octave]``` is the starting octave on C. The command ```[starting_note]``` has two different meanings depending on the tuning system used, as elaborated below.
 2. ```./main```, with defaults ```[A4] = 440 Hz```, ```[octave] = 4```, and ```[starting_note] = E-flat```.
 
-The abstract class ```TuningSystem``` has three subclasses:
+The abstract class ```TuningSystem``` has four subclasses:
 
 1. ```JustIntonation```. Calculates frequencies based on frequency ratios of small whole numbers, given a starting pitch class. The tritone has a ratio of 45:32. Thus, all ratios are by default based only on the prime numbers 2, 3, and 5. In just intonation, ```[starting_note]``` is the reference pitch class upon which the other 11 pitch classes are tuned to.
-2. ```Temperament```. Contains temperaments defined by the tempering of the perfect fifths. Included are the ```pythagorean``` (zero-comma meantone) and ```equal``` (twelfth-comma meantone, where this comma is Pythagorean) temperaments. For meantone temperaments, ```[starting_note]``` refers to the upper note of the wolf fifth, or equivalently, the "flattest" note. The default of ```"E-flat"``` places the wolf at G-sharp - E-flat. 
-3. ```EqualBeating```. Contains temperaments defined by the bps of the perfect fifths in the 4th octave.
+2. ```Temperament```. Contains temperaments defined by the tempering of the perfect fifths. Included are the ```pythagorean``` (zero-comma meantone) and ```equal``` (twelfth-comma meantone, where this comma is Pythagorean) temperaments. For meantone temperaments, ```[starting_note]``` refers to the upper note of the wolf fifth, or equivalently, the "flattest" note. The default of ```E-flat``` places the wolf at G-sharp - E-flat. 
+3. ```EqualTemperament```. Calculates frequencies based on the nth root of 2. The lowest pitch class is defaulted as ```C```. The way the frequencies are calculated forces ```[starting_note] = C```.
+4. ```EqualBeating```. Contains temperaments defined by the bps of the perfect fifths in the 4th octave.
 
 The full list of available temperaments is given as follows:
 
@@ -39,10 +40,17 @@ The full list of available temperaments is given as follows:
 * ```vallotti```
 * ```young1```
 
+**Equal**
+* ```equal12``` (Equivalent to ```equal```)
+* ```equal19```
+* ```equal31```
+* ```equal53```
+* ```equaln``` (n-EDO)
+
 **Equal-beating**
 * ```prelleur```
 
-In the future, we intend to implement custom temperaments and non-12 tone equal temperaments, with the latter having default implementations of 19ET, 31ET, and 55ET. 
+In the future, we intend to implement an interface for custom temperaments, as well as a method of combining instructions for the perfect fifths with respect to the tempering and bps.
 
 ## A Brief History
 

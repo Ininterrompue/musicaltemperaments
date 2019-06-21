@@ -10,11 +10,15 @@ double Constants::syntonic_comma_    = 1.0125;
 double Constants::schisma_           = 1.001129150390625;
 
 
-TuningSystem::TuningSystem(double concertA4, int ntones, std::string starting_note, int octave) {
+TuningSystem::TuningSystem(double concertA4, std::string starting_note, int octave) {
     concertA4_     = concertA4;
-    ntones_        = ntones;
+    ntones_        = 12;
     starting_note_ = starting_note;
     octave_        = octave;
+
+    P5steps_ = 7;
+    M3steps_ = 4;
+    m3steps_ = 3;
 
     pitchclass_dict_ = {
         {"C-flat", 11}, {"C", 0},  {"C-sharp", 1},
@@ -25,22 +29,6 @@ TuningSystem::TuningSystem(double concertA4, int ntones, std::string starting_no
         {"A-flat", 8},  {"A", 9},  {"A-sharp", 10},
         {"B-flat", 10}, {"B", 11}, {"B-sharp", 0}
     };
-}
-
-double TuningSystem::get_concertA4() const {
-    return concertA4_;
-}
-
-int TuningSystem::get_ntones() const {
-    return ntones_;
-}
-
-std::string TuningSystem::get_starting_note() const {
-    return starting_note_;
-}
-
-int TuningSystem::get_octave() const {
-    return octave_;
 }
 
 double TuningSystem::convert_to_cents(double ratio) {
@@ -58,7 +46,7 @@ Sorts vector<int> pitchclass_ starting from the starting_note and progresses
 by perfect fifths upwards. vector<int> pitchclass_ has ntones_ elements.
  */
 void TuningSystem::pitchclass_array() {
-    int starting_note_int = pitchclass_dict_[starting_note_];
+    int starting_note_int = pitchclass_dict_.at(starting_note_);
     for (int i = 0; i < ntones_; i++)
         pitchclass_.push_back( (7*i + starting_note_int) % ntones_ );
     std::vector<int>::iterator it = find(pitchclass_.begin(), pitchclass_.end(), 9);
@@ -79,35 +67,29 @@ void TuningSystem::calculate_cents_bps() {
     }
 
     for (int i = 0; i < ntones_; i++) {
-        int i_P5 = (7 + i) % ntones_;
-        if (i_P5 >= 7)
-            P5_info.push_back(2*frequencies_[i_P5]);
-        else
-            P5_info.push_back(4*frequencies_[i_P5]);
+        int i_P5 = (P5steps_ + i) % ntones_;
+        i_P5 >= P5steps_ ? P5_info.push_back(2*frequencies_.at(i_P5))
+                         : P5_info.push_back(4*frequencies_.at(i_P5));
 
-        int i_M3 = (4 + i) % ntones_;
-        if (i_M3 >= 4)
-            M3_info.push_back(4*frequencies_[i_M3]);
-        else
-            M3_info.push_back(8*frequencies_[i_M3]);
-        
-        int i_m3 = (3 + i) % ntones_;
-        if (i_m3 >= 3)
-            m3_info.push_back(5*frequencies_[i_m3]);
-        else
-            m3_info.push_back(10*frequencies_[i_m3]); 
+        int i_M3 = (M3steps_ + i) % ntones_;
+        i_M3 >= M3steps_ ? M3_info.push_back(4*frequencies_.at(i_M3))
+                         : M3_info.push_back(8*frequencies_.at(i_M3));
+
+        int i_m3 = (m3steps_ + i) % ntones_;
+        i_m3 >= m3steps_ ? m3_info.push_back(5*frequencies_.at(i_m3))
+                         : m3_info.push_back(10*frequencies_.at(i_m3)); 
     }
 
     bpsP5_.clear();
     bpsM3_.clear();
     bpsm3_.clear();
     for (int i = 0; i < ntones_; i++) {
-        centsP5_.push_back(convert_to_cents(P5_info[i+ntones_] / P5_info[i]));
-        centsM3_.push_back(convert_to_cents(M3_info[i+ntones_] / M3_info[i]));
-        centsm3_.push_back(convert_to_cents(m3_info[i+ntones_] / m3_info[i]));
-        bpsP5_.push_back(std::abs(P5_info[i+ntones_] - P5_info[i]));
-        bpsM3_.push_back(std::abs(M3_info[i+ntones_] - M3_info[i]));
-        bpsm3_.push_back(std::abs(m3_info[i+ntones_] - m3_info[i]));
+        centsP5_.push_back(convert_to_cents(P5_info.at(i+ntones_) / P5_info.at(i)));
+        centsM3_.push_back(convert_to_cents(M3_info.at(i+ntones_) / M3_info.at(i)));
+        centsm3_.push_back(convert_to_cents(m3_info.at(i+ntones_) / m3_info.at(i)));
+        bpsP5_.push_back(std::abs(P5_info.at(i+ntones_) - P5_info.at(i)));
+        bpsM3_.push_back(std::abs(M3_info.at(i+ntones_) - M3_info.at(i)));
+        bpsm3_.push_back(std::abs(m3_info.at(i+ntones_) - m3_info.at(i)));
     }
 }
 
@@ -115,15 +97,15 @@ void TuningSystem::display_tuning_table() const {
     printf("PC\tHz\tP5c\tM3c\tm3c\tP5b\tM3b\tm3b\n");
     for (int i = 0; i < ntones_; i++)
         printf("%d\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\n",
-            i, frequencies_[i], 
-            centsP5_[i], centsM3_[i], centsm3_[i],
-            bpsP5_[i],   bpsM3_[i],   bpsm3_[i]);
+            i, frequencies_.at(i), 
+            centsP5_.at(i), centsM3_.at(i), centsm3_.at(i),
+            bpsP5_.at(i),   bpsM3_.at(i),   bpsm3_.at(i));
 }
 
 
 int JustIntonation::calculate_dist() {
-    starting_position_ = pitchclass_dict_[starting_note_];
-    return pitchclass_dict_["A"] - starting_position_;
+    starting_position_ = pitchclass_dict_.at(starting_note_);
+    return pitchclass_dict_.at("A") - starting_position_;
 }
 
 void JustIntonation::calculate_frequencies() {
@@ -135,19 +117,17 @@ void JustIntonation::calculate_frequencies() {
         frequencies_.push_back(0.0);
         pitchclass_.push_back(i);
     }
-    frequencies_[9] = concertA4_;
+    frequencies_.at(9) = concertA4_;
 
     int dist = calculate_dist();
-    if (dist > 0)
-        frequencies_[starting_position_] = concertA4_ / ratios[abs(dist)];
-    else
-        frequencies_[starting_position_] = concertA4_ * ratios[abs(dist)];
+    dist > 0 ? frequencies_.at(starting_position_) = concertA4_ / ratios.at(std::abs(dist))
+             : frequencies_.at(starting_position_) = concertA4_ * ratios.at(std::abs(dist));
 
     for (int i = 1; i < ntones_; i++) {
         unsigned int j = (starting_position_ + i) % ntones_;
-        frequencies_[j] = frequencies_[starting_position_] * ratios[i];
+        frequencies_.at(j) = frequencies_.at(starting_position_) * ratios.at(i);
         if (j < starting_position_)
-            frequencies_[j] *= 0.5;
+            frequencies_.at(j) *= 0.5;
     }
 
     correct_octave();
@@ -158,22 +138,22 @@ void Temperament::calculate_frequencies() {
     pitchclass_array();
     for (int i = 0; i < ntones_; i++)
         frequencies_.push_back(0.0);
-    frequencies_[9] = concertA4_;
+    frequencies_.at(9) = concertA4_;
 
     // A -> E -> ...
     for (unsigned int i = starting_position_ + 1; i < pitchclass_.size(); i++) {
-        frequencies_[pitchclass_[i]] = 3./2 * frequencies_[pitchclass_[i-1]] /
-            pow(temperedcommas_[i-1], temperedfractions_[i-1]);
-        if (pitchclass_[i] - pitchclass_[i-1] < 0)
-            frequencies_[pitchclass_[i]] *= 0.5;
+        frequencies_.at(pitchclass_.at(i)) = 3./2 * frequencies_.at(pitchclass_.at(i-1)) /
+            pow(temperedcommas_.at(i-1), temperedfractions_.at(i-1));
+        if (pitchclass_.at(i) - pitchclass_.at(i-1) < 0)
+            frequencies_.at(pitchclass_.at(i)) *= 0.5;
     }
 
     // ... <- D <- A
     for (int i = starting_position_ - 1; i >= 0; i--) {
-        frequencies_[pitchclass_[i]] = 2./3 * frequencies_[pitchclass_[i+1]] *
-            pow(temperedcommas_[i], temperedfractions_[i]);
-        if (pitchclass_[i] - pitchclass_[i+1] > 0)
-            frequencies_[pitchclass_[i]] *= 2.0;
+        frequencies_.at(pitchclass_.at(i)) = 2./3 * frequencies_.at(pitchclass_.at(i+1)) *
+            pow(temperedcommas_.at(i), temperedfractions_.at(i));
+        if (pitchclass_.at(i) - pitchclass_.at(i+1) > 0)
+            frequencies_.at(pitchclass_.at(i)) *= 2.0;
     }
 
     correct_octave();
@@ -293,30 +273,87 @@ void Temperament::young1() {
 }
 
 
+void EqualTemperament::calculate_frequencies() {
+    std::cout << ntones_ << " EDO." << std::endl;
+    stepsize_ = exp2(1./ntones_);
+    int M6steps_ = ntones_ - m3steps_;
+
+    for (int i = 0; i < ntones_; i++)
+        frequencies_.push_back(concertA4_ * pow(stepsize_, i - M6steps_));
+
+    correct_octave();
+}
+
+void EqualTemperament::equal12() {
+    ntones_ = 12;
+    P5steps_ = 7;
+    M3steps_ = 4;
+    m3steps_ = 3;
+}
+
+void EqualTemperament::equal19() {
+    ntones_ = 19;
+    P5steps_ = 11;
+    M3steps_ = 6;
+    m3steps_ = 5;
+}
+
+void EqualTemperament::equal31() {
+    ntones_ = 31;
+    P5steps_ = 18;
+    M3steps_ = 10;
+    m3steps_ = 8;
+}
+
+void EqualTemperament::equal53() {
+    ntones_ = 53;
+    P5steps_ = 31;
+    M3steps_ = 17;
+    m3steps_ = 14;
+}
+
+void EqualTemperament::equaln(int ntones) {
+    ntones_ = ntones;
+
+    std::vector<double> P5dist;
+    std::vector<double> M3dist;
+    std::vector<double> m3dist;
+
+    for (int i = 0; i < ntones_; i++) {
+        P5dist.push_back(std::abs(3./2 - exp2(1.*i/ntones_)));
+        M3dist.push_back(std::abs(5./4 - exp2(1.*i/ntones_)));
+        m3dist.push_back(std::abs(6./5 - exp2(1.*i/ntones_)));
+    }
+    P5steps_ = std::min_element(P5dist.begin(), P5dist.end()) - P5dist.begin();
+    M3steps_ = std::min_element(M3dist.begin(), M3dist.end()) - M3dist.begin();
+    m3steps_ = std::min_element(m3dist.begin(), m3dist.end()) - m3dist.begin();
+}
+
+
 void EqualBeating::calculate_frequencies() {
     pitchclass_array();
     for (int i = 0; i < ntones_; i++)
         frequencies_.push_back(0.0);
-    frequencies_[9] = concertA4_;
+    frequencies_.at(9) = concertA4_;
 
     for (auto &f : bpsP5_)
         f *= concertA4_/440;
 
     // A -> E -> ...
     for (unsigned int i = starting_position_ + 1; i < pitchclass_.size(); i++) {
-        frequencies_[pitchclass_[i]] = 3./2 * frequencies_[pitchclass_[i-1]] -
-            1./2 * bpsP5_[i-1];
-        if (pitchclass_[i] - pitchclass_[i-1] < 0)
-            frequencies_[pitchclass_[i]] *= 0.5;
+        frequencies_.at(pitchclass_.at(i)) = 3./2 * frequencies_.at(pitchclass_.at(i-1)) -
+            1./2 * bpsP5_.at(i-1);
+        if (pitchclass_.at(i) - pitchclass_.at(i-1) < 0)
+            frequencies_.at(pitchclass_.at(i)) *= 0.5;
     }
 
     // ... <- D <- A
     for (int i = starting_position_ - 1; i >= 0; i--) {
-        frequencies_[pitchclass_[i]] = 2./3 * frequencies_[pitchclass_[i+1]] +
-            1./3 * bpsP5_[i];
-        if (pitchclass_[i] - pitchclass_[i+1] > 0) {
-            frequencies_[pitchclass_[i]] *= 2.0;
-            frequencies_[pitchclass_[i]] -= 1./3 * bpsP5_[i];
+        frequencies_.at(pitchclass_.at(i)) = 2./3 * frequencies_.at(pitchclass_.at(i+1)) +
+            1./3 * bpsP5_.at(i);
+        if (pitchclass_.at(i) - pitchclass_.at(i+1) > 0) {
+            frequencies_.at(pitchclass_.at(i)) *= 2.0;
+            frequencies_.at(pitchclass_.at(i)) -= 1./3 * bpsP5_.at(i);
         }
     }
 

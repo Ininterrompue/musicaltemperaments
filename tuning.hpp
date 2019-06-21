@@ -10,13 +10,15 @@ public:
     static double schisma_;
 };
 
-
 class TuningSystem {
 protected:
     double concertA4_;
     int ntones_;
     std::string starting_note_;
     int octave_;
+    int P5steps_;
+    int M3steps_;
+    int m3steps_;
     unsigned int starting_position_;
 
     std::vector<int> pitchclass_;
@@ -30,22 +32,17 @@ protected:
     std::vector<double> bpsm3_;
 
 public: 
-    TuningSystem(double concertA4 = 440.0,             int ntones = 12, 
-                 std::string starting_note = "E-flat", int octave = 4);
+    TuningSystem(double concertA4 = 440.0, 
+                 std::string starting_note = "E-flat", 
+                 int octave = 4);
 
-    double get_concertA4() const;
-    int get_ntones() const;
-    std::string get_starting_note() const;
-    int get_octave() const;
     void display_universal_info() const;
     double convert_to_cents(double ratio);
     void pitchclass_array();
     void correct_octave();
-
     void calculate_cents_bps();
     void display_tuning_table() const;
 };
-
 
 class JustIntonation: public TuningSystem {
 public:
@@ -56,10 +53,11 @@ public:
 };
 
 class Temperament: public TuningSystem {
-public:
+protected:
     std::vector<double> temperedfractions_;
     std::vector<double> temperedcommas_;
 
+public:
     using TuningSystem::TuningSystem;
 
     // Meantone temperaments
@@ -76,6 +74,22 @@ public:
     void kirnberger3();
     void vallotti();
     void young1();
+
+    void calculate_frequencies();
+};
+
+class EqualTemperament: public TuningSystem {
+private:
+    double stepsize_;
+
+public:
+    using TuningSystem::TuningSystem;
+
+    void equal12();
+    void equal19();
+    void equal31();
+    void equal53();
+    void equaln(int ntones);
 
     void calculate_frequencies();
 };
