@@ -30,9 +30,10 @@ protected:
     std::vector<double> bpsP5_;
     std::vector<double> bpsM3_;
     std::vector<double> bpsm3_;
+    std::vector<double> cents_from_ET_;
 
 public: 
-    TuningSystem(double concertA4 = 440.0, 
+    TuningSystem(double concertA4 = 440, 
                  std::string starting_note = "E-flat", 
                  int octave = 4);
 
@@ -41,12 +42,18 @@ public:
     void pitchclass_array();
     void correct_octave();
     void calculate_cents_bps();
+    void calculate_et_deviations();
     void display_tuning_table() const;
 };
 
 class JustIntonation: public TuningSystem {
+protected:
+    std::vector<double> ratios_;
+
 public:
     using TuningSystem::TuningSystem;
+
+    void just5();
 
     int calculate_dist();
     void calculate_frequencies();

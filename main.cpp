@@ -1,6 +1,5 @@
 #include "tuning.hpp"
 #include <iostream>
-#include <map>
 
 
 int main(int argc, char *argv[]) {
@@ -25,12 +24,13 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    BpsTemperament t0(concertA4, starting_note, octave);
-    t0.ellis1875();
+    Temperament t0(concertA4, starting_note, octave);
+    t0.meantone4();
 
     t0.display_universal_info();
     t0.calculate_frequencies();
     t0.calculate_cents_bps();
+    t0.calculate_et_deviations();
     t0.display_tuning_table();
     
     return 0;
