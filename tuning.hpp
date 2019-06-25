@@ -44,6 +44,7 @@ public:
     void calculate_cents_bps();
     void calculate_et_deviations();
     void display_tuning_table() const;
+    void display_tuning_table(std::string filename) const;
 };
 
 class JustIntonation: public TuningSystem {

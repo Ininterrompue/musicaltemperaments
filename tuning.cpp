@@ -1,6 +1,7 @@
 #include "tuning.hpp"
 #include <iostream>
 #include <stdio.h>
+#include <fstream>
 #include <algorithm>
 #include <cmath>
 
@@ -106,12 +107,41 @@ void TuningSystem::calculate_et_deviations() {
 }
 
 void TuningSystem::display_tuning_table() const {
-    printf("PC\tHz\tET/c\tP5/c\tM3/c\tm3/c\tP5/b\tM3/b\tm3/b\n");
-    for (int i = 0; i < ntones_; i++)
-        printf("%d\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\n",
-            i, frequencies_.at(i), cents_from_ET_.at(i),
-            centsP5_.at(i), centsM3_.at(i), centsm3_.at(i),
-            bpsP5_.at(i),   bpsM3_.at(i),   bpsm3_.at(i));
+    std::cout << "PC\tHz\tET/c\tP5/c\tM3/c\tm3/c\tP5/b\tM3/b\tm3/b" << std::endl;
+    for (int i = 0; i < ntones_; i++) {
+        std::cout.precision(2);
+        std::cout << i << "\t" << std::fixed
+                  << frequencies_.at(i) << "\t"
+                  << cents_from_ET_.at(i) << "\t"
+                  << centsP5_.at(i) << "\t"
+                  << centsM3_.at(i) << "\t"
+                  << centsm3_.at(i) << "\t"
+                  << bpsP5_.at(i) << "\t"
+                  << bpsM3_.at(i) << "\t"
+                  << bpsm3_.at(i) << std::endl;
+    }
+}
+
+void TuningSystem::display_tuning_table(std::string filename) const {
+    std::ofstream file;
+    file.open(filename);
+
+    std::cout << "Writing to " << filename << "." << std::endl;
+    file << "PC\tHz\tET/c\tP5/c\tM3/c\tm3/c\tP5/b\tM3/b\tm3/b" << std::endl;
+    for (int i = 0; i < ntones_; i++) {
+        file.precision(2);
+        file << i << "\t" << std::fixed
+             << frequencies_.at(i) << "\t"
+             << cents_from_ET_.at(i) << "\t"
+             << centsP5_.at(i) << "\t"
+             << centsM3_.at(i) << "\t"
+             << centsm3_.at(i) << "\t"
+             << bpsP5_.at(i) << "\t"
+             << bpsM3_.at(i) << "\t"
+             << bpsm3_.at(i) << std::endl;
+    }
+
+    file.close();
 }
 
 

@@ -10,4 +10,4 @@ $(PROGRAM): $(OBJECTS)
 	$(COMPILER) $(CPPFLAGS) -c -o $@ $<
 
 clean:
-	rm $(PROGRAM) *.o
+	rm $(PROGRAM) *.o *.dat
