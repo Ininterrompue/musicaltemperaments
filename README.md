@@ -41,6 +41,7 @@ The full list of available temperaments in each class is given as follows:
 * ```kirnberger3```
 * ```vallotti```
 * ```young1```
+* ```kellner```
 
 **BpsTemperament**
 * ```prelleur```

@@ -316,6 +316,18 @@ void Temperament::young1() {
     };
 }
 
+void Temperament::kellner() {
+    std::cout << "Kellner." << std::endl;
+    starting_note_ = "C";
+    temperedfractions_ = {1./5, 1./5, 1./5, 1./5, 0, 1./5, 0, 0, 0, 0, 0};
+    temperedcommas_ = {
+        Constants::pythagorean_comma_, Constants::pythagorean_comma_,
+        Constants::pythagorean_comma_, Constants::pythagorean_comma_,
+        0, Constants::pythagorean_comma_,
+        0, 0, 0, 0, 0
+    };
+}
+
 
 void EqualTemperament::calculate_frequencies() {
     stepsize_ = exp2(1./ntones_);

@@ -82,6 +82,7 @@ public:
     void kirnberger3();
     void vallotti();
     void young1();
+    void kellner();
 
     void calculate_frequencies();
 };
