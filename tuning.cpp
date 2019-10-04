@@ -205,7 +205,6 @@ void Temperament::calculate_frequencies() {
 
 void Temperament::equal() {
     std::cout << "Equal temperament." << std::endl;
-    starting_note_ = "E-flat";
     for (int i = 0; i < ntones_ - 1; i++) {
         temperedfractions_.push_back(1./ntones_);
         temperedcommas_.push_back(Constants::pythagorean_comma_);
@@ -214,7 +213,6 @@ void Temperament::equal() {
 
 void Temperament::pythagorean() {
     std::cout << "Pythagorean tuning." << std::endl;
-    starting_note_ = "E-flat";
     for (int i = 0; i < ntones_ - 1; i++) {
         temperedfractions_.push_back(0.0);
         temperedcommas_.push_back(0.0);
@@ -223,7 +221,6 @@ void Temperament::pythagorean() {
 
 void Temperament::meantone3() {
     std::cout << "Third-comma meantone." << std::endl;
-    starting_note_ = "E-flat";
     for (int i = 0; i < ntones_ - 1; i++) {
         temperedfractions_.push_back(1./3);
         temperedcommas_.push_back(Constants::syntonic_comma_);
@@ -232,7 +229,6 @@ void Temperament::meantone3() {
 
 void Temperament::meantone4() {
     std::cout << "Quarter-comma meantone." << std::endl;
-    starting_note_ = "E-flat";
     for (int i = 0; i < ntones_ - 1; i++) {
         temperedfractions_.push_back(1./4);
         temperedcommas_.push_back(Constants::syntonic_comma_);
@@ -241,7 +237,6 @@ void Temperament::meantone4() {
 
 void Temperament::meantone6() {
     std::cout << "Sixth-comma meantone." << std::endl;
-    starting_note_ = "E-flat";
     for (int i = 0; i < ntones_ - 1; i++) {
         temperedfractions_.push_back(1./6);
         temperedcommas_.push_back(Constants::syntonic_comma_);
