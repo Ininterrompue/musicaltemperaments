@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
     }
 
     Temperament t0(concertA4, starting_note, octave);
-    t0.kirnberger3();
+    t0.meantone4();
 
     t0.display_universal_info();
     t0.calculate_frequencies();
@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
     t0.calculate_et_deviations();
     t0.display_tuning_table();
 
-    t0.display_tuning_table("kirnberger3.dat");
+    t0.display_tuning_table("meantone4.dat");
     
     return 0;
 }
