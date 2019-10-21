@@ -1,10 +1,14 @@
-![](./assets/young1.png)
+<p align="center">
+  <src="./assets/young1.png">
+</p>
 
 ## Introduction
 
 This repository is intended to be a resource about various different temperaments that have been developed throughout history to tune keyboard instruments such as the organ, harpsichord, and piano. The fundamental problem that every temperament seeks to solve is how to tune the 12 fixed notes within an octave. Unlike the voice or string instruments, these notes are fixed and cannot practically be adjusted during a performance.
 
 The main output of main.cpp is a table which lists the frequencies of 12 adjacent notes beginning on C, with the starting octave<sup>1</sup> specified by the user. From these frequencies, the deviations from equal temperament, the widths of the intervals compared to their just counterparts<sup>2</sup>, and the associated beats-per-second<sup>3</sup> are also listed. When interpreting intervals, each row corresponds to their lower tone.
+
+The graphical chart shown above is intended to be a loose reproduction of that seen in [this](http://rollingball.com/TemperamentsFrames.htm) guide. We display a summary of Young I temperament, a well (unequal) temperament where the widths of the fifths and thirds differ between keys. The bars signify the deviations, in cents, of these three intervals from their just counterparts. While the minor thirds are usually narrower than just, we opt to plot the absolute value of their deviation for an easier comparison with the major thirds. Observe that the major thirds are close to pure around C major but grow progressively wider as we traverse the circle of fifths, a property that holds for most well temperaments. This notion of "key color" is in stark contrast with the widely used equal temperament, where every interval has the same width, and therefore key color is lost.
 
 <sup>1</sup>We use [scientific pitch notation](https://en.wikipedia.org/wiki/Scientific_pitch_notation) to specify the starting octave. In this notation, C4 is denoted as middle C, and A4 is [concert A](https://en.wikipedia.org/wiki/Concert_pitch). In modern times, A4 = 440 Hz, but other pitch standards have been in use throughout history. Most notably, the modern convention for authentic Baroque performance sets A4 = 415 Hz.
 
