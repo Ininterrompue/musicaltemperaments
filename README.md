@@ -1,4 +1,4 @@
-![](./assets/young1.pdf)
+![](./assets/young1.png)
 
 ## Introduction
 

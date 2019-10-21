@@ -24,8 +24,8 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    BpsTemperament t0(concertA4, starting_note, octave);
-    t0.ellis1885();
+    Temperament t0(concertA4, starting_note, octave);
+    t0.young1();
 
     t0.display_universal_info();
     t0.calculate_frequencies();
@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
     t0.calculate_et_deviations();
     t0.display_tuning_table();
 
-    t0.display_tuning_table("ellis1885.dat");
+    t0.display_tuning_table("young1.dat");
     
     return 0;
 }
