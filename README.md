@@ -1,5 +1,3 @@
-![](./assets/young1.pdf)
-
 ## Introduction
 
 This repository is intended to be a resource about various different temperaments that have been developed throughout history to tune keyboard instruments such as the organ, harpsichord, and piano. The fundamental problem that every temperament seeks to solve is how to tune the 12 fixed notes within an octave. Unlike the voice or string instruments, these notes are fixed and cannot practically be adjusted during a performance.
